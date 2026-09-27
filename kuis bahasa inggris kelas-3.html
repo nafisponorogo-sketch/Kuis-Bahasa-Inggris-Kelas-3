@@ -1,0 +1,1461 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Kuis Bahasa Inggris Kelas 3</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: "Poppins", Arial, sans-serif;
+            background: linear-gradient(135deg, #e8f5e9, #e3f2fd);
+            color: #263238;
+            min-height: 100vh;
+        }
+
+        .container {
+            width: 95%;
+            max-width: 1000px;
+            margin: 30px auto;
+        }
+
+        /* HEADER */
+        .header {
+            background: linear-gradient(135deg, #1565c0, #42a5f5);
+            color: white;
+            padding: 30px;
+            border-radius: 20px 20px 0 0;
+            text-align: center;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.12);
+        }
+
+        .header h1 {
+            font-size: 28px;
+            margin-bottom: 8px;
+        }
+
+        .header h2 {
+            font-size: 19px;
+            font-weight: 500;
+            margin-bottom: 5px;
+        }
+
+        .header p {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        /* IDENTITAS */
+        .identity {
+            background: white;
+            padding: 25px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 7px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 13px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 15px;
+            outline: none;
+            transition: 0.3s;
+        }
+
+        .form-group input:focus {
+            border-color: #2196f3;
+            box-shadow: 0 0 0 3px rgba(33,150,243,0.12);
+        }
+
+        /* INFO */
+        .info-bar {
+            background: white;
+            padding: 15px 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid #eee;
+            border-bottom: 1px solid #eee;
+        }
+
+        .timer {
+            background: #ff7043;
+            color: white;
+            padding: 10px 18px;
+            border-radius: 30px;
+            font-weight: bold;
+            font-size: 16px;
+        }
+
+        .timer.warning {
+            background: #d32f2f;
+            animation: pulse 1s infinite;
+        }
+
+        @keyframes pulse {
+            50% {
+                transform: scale(1.05);
+            }
+        }
+
+        .progress-text {
+            font-weight: 600;
+            color: #1565c0;
+        }
+
+        /* PROGRESS BAR */
+        .progress-container {
+            background: white;
+            padding: 0 25px 20px;
+        }
+
+        .progress-bar {
+            height: 10px;
+            background: #eeeeee;
+            border-radius: 20px;
+            overflow: hidden;
+        }
+
+        .progress {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #1565c0, #42a5f5);
+            transition: 0.3s;
+        }
+
+        /* QUESTION NAVIGATION */
+        .question-nav {
+            background: white;
+            padding: 15px 25px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .number-btn {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            border: 2px solid #bbdefb;
+            background: white;
+            color: #1565c0;
+            cursor: pointer;
+            font-weight: bold;
+            transition: 0.2s;
+        }
+
+        .number-btn:hover {
+            background: #e3f2fd;
+        }
+
+        .number-btn.active {
+            background: #1565c0;
+            color: white;
+            border-color: #1565c0;
+        }
+
+        .number-btn.answered {
+            background: #43a047;
+            color: white;
+            border-color: #43a047;
+        }
+
+        .number-btn.active.answered {
+            background: #1565c0;
+            border-color: #1565c0;
+        }
+
+        /* QUIZ CARD */
+        .quiz-card {
+            background: white;
+            padding: 30px;
+            min-height: 430px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+        }
+
+        .question-number {
+            color: #1565c0;
+            font-size: 15px;
+            font-weight: bold;
+            margin-bottom: 12px;
+        }
+
+        .question {
+            font-size: 20px;
+            font-weight: 600;
+            line-height: 1.6;
+            margin-bottom: 25px;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 13px;
+        }
+
+        .option {
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            padding: 15px;
+            cursor: pointer;
+            transition: 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .option:hover {
+            border-color: #64b5f6;
+            background: #f5faff;
+        }
+
+        .option.selected {
+            border-color: #1565c0;
+            background: #e3f2fd;
+        }
+
+        .option input {
+            display: none;
+        }
+
+        .option-letter {
+            min-width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            background: #e3f2fd;
+            color: #1565c0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        .option.selected .option-letter {
+            background: #1565c0;
+            color: white;
+        }
+
+        /* BUTTON */
+        .buttons {
+            background: white;
+            padding: 20px 30px 30px;
+            display: flex;
+            justify-content: space-between;
+            gap: 15px;
+        }
+
+        button {
+            font-family: inherit;
+        }
+
+        .btn {
+            padding: 13px 25px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 15px;
+            transition: 0.2s;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .btn-prev {
+            background: #eeeeee;
+            color: #424242;
+        }
+
+        .btn-next {
+            background: #1565c0;
+            color: white;
+        }
+
+        .btn-finish {
+            background: #43a047;
+            color: white;
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* RESULT */
+        .result {
+            display: none;
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+            text-align: center;
+        }
+
+        .result-icon {
+            font-size: 70px;
+            margin-bottom: 15px;
+        }
+
+        .result h2 {
+            color: #1565c0;
+            margin-bottom: 10px;
+        }
+
+        .score {
+            font-size: 60px;
+            font-weight: bold;
+            color: #43a047;
+            margin: 20px 0;
+        }
+
+        .result-info {
+            background: #f5f5f5;
+            padding: 18px;
+            border-radius: 12px;
+            margin: 20px auto;
+            max-width: 450px;
+            line-height: 1.8;
+        }
+
+        .result-info strong {
+            color: #1565c0;
+        }
+
+        .message {
+            font-size: 18px;
+            font-weight: 600;
+            margin: 20px 0;
+        }
+
+        .restart {
+            background: #1565c0;
+            color: white;
+            padding: 14px 30px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 15px;
+            font-weight: bold;
+        }
+
+        /* FOOTER */
+        .footer {
+            text-align: center;
+            padding: 20px;
+            font-size: 13px;
+            color: #607d8b;
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 700px) {
+            .container {
+                width: 100%;
+                margin: 0;
+            }
+
+            .header {
+                border-radius: 0;
+                padding: 25px 15px;
+            }
+
+            .header h1 {
+                font-size: 22px;
+            }
+
+            .identity {
+                grid-template-columns: 1fr;
+                padding: 20px;
+            }
+
+            .info-bar {
+                padding: 15px;
+            }
+
+            .quiz-card {
+                padding: 22px 18px;
+            }
+
+            .question {
+                font-size: 18px;
+            }
+
+            .buttons {
+                padding: 18px;
+            }
+
+            .btn {
+                padding: 11px 15px;
+            }
+
+            .result {
+                border-radius: 0;
+                min-height: 100vh;
+                padding: 30px 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <!-- HEADER -->
+    <div class="header">
+        <h1>ENGLISH QUIZ</h1>
+        <h2>Bahasa Inggris Kelas 3</h2>
+        <p>Semester 1 • 20 Questions • Time: 60 Minutes</p>
+    </div>
+
+    <!-- IDENTITAS -->
+    <div class="identity">
+
+        <div class="form-group">
+            <label for="studentName">Nama Lengkap</label>
+            <input
+                type="text"
+                id="studentName"
+                placeholder="Masukkan nama lengkap"
+                autocomplete="off"
+            >
+        </div>
+
+        <div class="form-group">
+            <label for="studentNumber">Nomor Absen</label>
+            <input
+                type="number"
+                id="studentNumber"
+                placeholder="Masukkan nomor absen"
+                min="1"
+                autocomplete="off"
+            >
+        </div>
+
+    </div>
+
+    <!-- INFO BAR -->
+    <div class="info-bar">
+
+        <div class="progress-text">
+            Soal <span id="currentQuestion">1</span> dari 20
+        </div>
+
+        <div class="timer" id="timer">
+            60:00
+        </div>
+
+    </div>
+
+    <!-- PROGRESS -->
+    <div class="progress-container">
+        <div class="progress-bar">
+            <div class="progress" id="progress"></div>
+        </div>
+    </div>
+
+    <!-- NAVIGASI NOMOR SOAL -->
+    <div class="question-nav" id="questionNav"></div>
+
+    <!-- QUIZ -->
+    <div id="quizArea">
+
+        <div class="quiz-card">
+
+            <div class="question-number" id="questionNumber">
+                QUESTION 1
+            </div>
+
+            <div class="question" id="questionText"></div>
+
+            <div class="options" id="options"></div>
+
+        </div>
+
+        <div class="buttons">
+
+            <button
+                class="btn btn-prev"
+                id="prevBtn"
+                onclick="previousQuestion()"
+            >
+                ← Sebelumnya
+            </button>
+
+            <button
+                class="btn btn-next"
+                id="nextBtn"
+                onclick="nextQuestion()"
+            >
+                Berikutnya →
+            </button>
+
+            <button
+                class="btn btn-finish"
+                id="finishBtn"
+                onclick="finishQuiz()"
+                style="display:none;"
+            >
+                ✓ Selesai
+            </button>
+
+        </div>
+
+    </div>
+
+    <!-- HASIL -->
+    <div class="result" id="result">
+
+        <div class="result-icon">
+            🎉
+        </div>
+
+        <h2>Kuis Selesai!</h2>
+
+        <p>Terima kasih sudah mengerjakan kuis.</p>
+
+        <div class="score" id="score">
+            0
+        </div>
+
+        <p>SKOR AKHIR</p>
+
+        <div class="result-info">
+
+            <p>
+                <strong>Nama:</strong>
+                <span id="resultName"></span>
+            </p>
+
+            <p>
+                <strong>Nomor Absen:</strong>
+                <span id="resultNumber"></span>
+            </p>
+
+            <p>
+                <strong>Jawaban Benar:</strong>
+                <span id="correctAnswer"></span>
+            </p>
+
+            <p>
+                <strong>Jawaban Salah:</strong>
+                <span id="wrongAnswer"></span>
+            </p>
+
+            <p>
+                <strong>Tidak Dijawab:</strong>
+                <span id="emptyAnswer"></span>
+            </p>
+
+        </div>
+
+        <div class="message" id="message"></div>
+
+        <button class="restart" onclick="restartQuiz()">
+            🔄 Kerjakan Lagi
+        </button>
+
+    </div>
+
+    <div class="footer">
+        English Quiz • Kelas 3 • Good Luck!
+    </div>
+
+</div>
+
+
+<script>
+
+    /* =====================================================
+       DATA SOAL
+       ===================================================== */
+
+    const questions = [
+
+        {
+            question:
+                "What does Rani usually eat for breakfast?",
+            options: [
+                "Bread and milk",
+                "Noodles and tea",
+                "Rice and eggs",
+                "Pizza and juice"
+            ],
+            answer: 2
+        },
+
+        {
+            question:
+                "When does Rani have breakfast?",
+            options: [
+                "Every morning",
+                "Every afternoon",
+                "Every evening",
+                "Every night"
+            ],
+            answer: 0
+        },
+
+        {
+            question:
+                "The students have .... in the canteen.",
+            options: [
+                "Breakfast",
+                "Dinner",
+                "Lunch",
+                "Brunch"
+            ],
+            answer: 2
+        },
+
+        {
+            question:
+                "Choose the correct spelling.",
+            options: [
+                "eveingng",
+                "eveingn",
+                "ningeve",
+                "evening"
+            ],
+            answer: 3
+        },
+
+        {
+            question:
+                "Sintiya .... bread for breakfast.",
+            options: [
+                "have",
+                "had",
+                "has",
+                "eat"
+            ],
+            answer: 2
+        },
+
+        {
+            question:
+                "Which food can you have for breakfast?",
+            options: [
+                "Bread",
+                "Ice tea",
+                "Fried rice",
+                "All answers are correct"
+            ],
+            answer: 3
+        },
+
+        {
+            question:
+                "Which sentence is correct?",
+            options: [
+                "I have fried rice for breakfast.",
+                "Yuna has bread for lunch.",
+                "I has noodles for dinner.",
+                "Yuna have bread for lunch."
+            ],
+            answer: 0
+        },
+
+        {
+            question:
+                "Breakfast is usually eaten ....",
+            options: [
+                "In the evening",
+                "In the afternoon",
+                "In the morning",
+                "At night"
+            ],
+            answer: 2
+        },
+
+        {
+            question:
+                "Which sentence is correct?",
+            options: [
+                "Rina has noodle for dinner.",
+                "Fina has bread for breakfast.",
+                "Made has fried chicken for lunch.",
+                "All of the above are correct."
+            ],
+            answer: 3
+        },
+
+        {
+            question:
+                "Aisya _____ soup for dinner.",
+            options: [
+                "have",
+                "has",
+                "having",
+                "had"
+            ],
+            answer: 1
+        },
+
+        {
+            question:
+                "I _____ meatball for lunch.",
+            options: [
+                "has",
+                "have",
+                "having",
+                "had"
+            ],
+            answer: 1
+        },
+
+        {
+            question:
+                "My brother _____ fried rice for breakfast.",
+            options: [
+                "have",
+                "has",
+                "having",
+                "are"
+            ],
+            answer: 1
+        },
+
+        {
+            question:
+                "Made and his father have breakfast with rice, eggs, bread, milk, and fruit. When do they eat these foods?",
+            options: [
+                "For breakfast",
+                "For lunch",
+                "For dinner",
+                "For midnight snack"
+            ],
+            answer: 0
+        },
+
+        {
+            question:
+                "Arrange these words into a correct sentence: fried chicken – I – have – breakfast – for",
+            options: [
+                "I have fried chicken for breakfast.",
+                "I fried chicken have for breakfast.",
+                "For breakfast fried chicken I have.",
+                "I have breakfast fried chicken for."
+            ],
+            answer: 0
+        },
+
+        {
+            question:
+                "What is the English word for 'sarapan'?",
+            options: [
+                "Lunch",
+                "Dinner",
+                "Breakfast",
+                "Snack"
+            ],
+            answer: 2
+        },
+
+        {
+            question:
+                "What is the English word for 'makan siang'?",
+            options: [
+                "Breakfast",
+                "Lunch",
+                "Dinner",
+                "Supper"
+            ],
+            answer: 1
+        },
+
+        {
+            question:
+                "What is the English word for 'makan malam'?",
+            options: [
+                "Breakfast",
+                "Lunch",
+                "Dinner",
+                "Brunch"
+            ],
+            answer: 2
+        },
+
+        {
+            question:
+                "Which sentence uses 'has' correctly?",
+            options: [
+                "I has bread for breakfast.",
+                "She has bread for breakfast.",
+                "They has bread for breakfast.",
+                "We has bread for breakfast."
+            ],
+            answer: 1
+        },
+
+        {
+            question:
+                "Which sentence uses 'have' correctly?",
+            options: [
+                "He have rice for lunch.",
+                "She have milk for breakfast.",
+                "I have rice for lunch.",
+                "Rina have bread for breakfast."
+            ],
+            answer: 2
+        },
+
+        {
+            question:
+                "Choose the correct sentence.",
+            options: [
+                "My brother has eggs for breakfast.",
+                "My brother have eggs for breakfast.",
+                "My brother having eggs for breakfast.",
+                "My brother are eggs for breakfast."
+            ],
+            answer: 0
+        }
+
+    ];
+
+
+    /* =====================================================
+       VARIABEL
+       ===================================================== */
+
+    let currentQuestion = 0;
+
+    let userAnswers = new Array(questions.length).fill(null);
+
+    let timeLeft = 60 * 60;
+
+    let timerInterval;
+
+    let quizFinished = false;
+
+
+    /* =====================================================
+       ELEMENT HTML
+       ===================================================== */
+
+    const questionText =
+        document.getElementById("questionText");
+
+    const questionNumber =
+        document.getElementById("questionNumber");
+
+    const optionsContainer =
+        document.getElementById("options");
+
+    const currentQuestionText =
+        document.getElementById("currentQuestion");
+
+    const progress =
+        document.getElementById("progress");
+
+    const questionNav =
+        document.getElementById("questionNav");
+
+    const timer =
+        document.getElementById("timer");
+
+    const prevBtn =
+        document.getElementById("prevBtn");
+
+    const nextBtn =
+        document.getElementById("nextBtn");
+
+    const finishBtn =
+        document.getElementById("finishBtn");
+
+
+    /* =====================================================
+       TAMPILKAN NAVIGASI NOMOR
+       ===================================================== */
+
+    function createQuestionNavigation() {
+
+        questionNav.innerHTML = "";
+
+        questions.forEach((question, index) => {
+
+            const button =
+                document.createElement("button");
+
+            button.className = "number-btn";
+
+            button.textContent = index + 1;
+
+            button.onclick = function() {
+
+                currentQuestion = index;
+
+                showQuestion();
+
+            };
+
+            questionNav.appendChild(button);
+
+        });
+
+    }
+
+
+    /* =====================================================
+       TAMPILKAN SOAL
+       ===================================================== */
+
+    function showQuestion() {
+
+        const question =
+            questions[currentQuestion];
+
+        questionNumber.textContent =
+            "QUESTION " + (currentQuestion + 1);
+
+        currentQuestionText.textContent =
+            currentQuestion + 1;
+
+        questionText.textContent =
+            question.question;
+
+        optionsContainer.innerHTML = "";
+
+
+        question.options.forEach((option, index) => {
+
+            const optionElement =
+                document.createElement("label");
+
+            optionElement.className = "option";
+
+
+            if (userAnswers[currentQuestion] === index) {
+                optionElement.classList.add("selected");
+            }
+
+
+            optionElement.innerHTML = `
+
+                <input
+                    type="radio"
+                    name="answer"
+                    value="${index}"
+                    ${userAnswers[currentQuestion] === index ? "checked" : ""}
+                >
+
+                <span class="option-letter">
+                    ${String.fromCharCode(65 + index)}
+                </span>
+
+                <span>
+                    ${option}
+                </span>
+
+            `;
+
+
+            optionElement.addEventListener("click", function() {
+
+                userAnswers[currentQuestion] = index;
+
+                showQuestion();
+
+            });
+
+
+            optionsContainer.appendChild(optionElement);
+
+        });
+
+
+        updateNavigation();
+
+        updateProgress();
+
+    }
+
+
+    /* =====================================================
+       UPDATE NAVIGASI
+       ===================================================== */
+
+    function updateNavigation() {
+
+        const buttons =
+            document.querySelectorAll(".number-btn");
+
+
+        buttons.forEach((button, index) => {
+
+            button.classList.remove("active");
+
+            button.classList.remove("answered");
+
+
+            if (userAnswers[index] !== null) {
+
+                button.classList.add("answered");
+
+            }
+
+
+            if (index === currentQuestion) {
+
+                button.classList.add("active");
+
+            }
+
+        });
+
+
+        prevBtn.disabled =
+            currentQuestion === 0;
+
+
+        if (currentQuestion === questions.length - 1) {
+
+            nextBtn.style.display = "none";
+
+            finishBtn.style.display = "block";
+
+        } else {
+
+            nextBtn.style.display = "block";
+
+            finishBtn.style.display = "none";
+
+        }
+
+    }
+
+
+    /* =====================================================
+       PROGRESS
+       ===================================================== */
+
+    function updateProgress() {
+
+        const answered =
+            userAnswers.filter(
+                answer => answer !== null
+            ).length;
+
+
+        const percentage =
+            (answered / questions.length) * 100;
+
+
+        progress.style.width =
+            percentage + "%";
+
+    }
+
+
+    /* =====================================================
+       NEXT
+       ===================================================== */
+
+    function nextQuestion() {
+
+        if (currentQuestion < questions.length - 1) {
+
+            currentQuestion++;
+
+            showQuestion();
+
+            window.scrollTo({
+                top: 0,
+                behavior: "smooth"
+            });
+
+        }
+
+    }
+
+
+    /* =====================================================
+       PREVIOUS
+       ===================================================== */
+
+    function previousQuestion() {
+
+        if (currentQuestion > 0) {
+
+            currentQuestion--;
+
+            showQuestion();
+
+            window.scrollTo({
+                top: 0,
+                behavior: "smooth"
+            });
+
+        }
+
+    }
+
+
+    /* =====================================================
+       TIMER
+       ===================================================== */
+
+    function startTimer() {
+
+        timerInterval =
+            setInterval(function() {
+
+                if (timeLeft <= 0) {
+
+                    clearInterval(timerInterval);
+
+                    alert(
+                        "Waktu telah habis. Jawaban akan dikumpulkan otomatis."
+                    );
+
+                    finishQuiz();
+
+                    return;
+
+                }
+
+
+                timeLeft--;
+
+
+                const minutes =
+                    Math.floor(timeLeft / 60);
+
+                const seconds =
+                    timeLeft % 60;
+
+
+                timer.textContent =
+                    String(minutes).padStart(2, "0")
+                    + ":"
+                    + String(seconds).padStart(2, "0");
+
+
+                if (timeLeft <= 300) {
+
+                    timer.classList.add("warning");
+
+                }
+
+            }, 1000);
+
+    }
+
+
+    /* =====================================================
+       SELESAI
+       ===================================================== */
+
+    function finishQuiz() {
+
+        if (quizFinished) {
+            return;
+        }
+
+
+        const name =
+            document.getElementById("studentName").value.trim();
+
+        const number =
+            document.getElementById("studentNumber").value.trim();
+
+
+        if (name === "") {
+
+            alert("Silakan isi nama terlebih dahulu.");
+
+            document.getElementById("studentName").focus();
+
+            return;
+
+        }
+
+
+        if (number === "") {
+
+            alert("Silakan isi nomor absen terlebih dahulu.");
+
+            document.getElementById("studentNumber").focus();
+
+            return;
+
+        }
+
+
+        const unanswered =
+            userAnswers.filter(
+                answer => answer === null
+            ).length;
+
+
+        if (unanswered > 0) {
+
+            const confirmFinish =
+                confirm(
+                    "Masih ada " +
+                    unanswered +
+                    " soal yang belum dijawab.\n\n" +
+                    "Apakah kamu yakin ingin mengakhiri kuis?"
+                );
+
+
+            if (!confirmFinish) {
+                return;
+            }
+
+        }
+
+
+        quizFinished = true;
+
+
+        clearInterval(timerInterval);
+
+
+        let correct = 0;
+
+
+        questions.forEach((question, index) => {
+
+            if (
+                userAnswers[index] ===
+                question.answer
+            ) {
+
+                correct++;
+
+            }
+
+        });
+
+
+        const wrong =
+            userAnswers.filter(
+                (answer, index) =>
+                    answer !== null &&
+                    answer !== questions[index].answer
+            ).length;
+
+
+        const empty =
+            userAnswers.filter(
+                answer => answer === null
+            ).length;
+
+
+        const score =
+            Math.round(
+                (correct / questions.length) * 100
+            );
+
+
+        document.getElementById("resultName")
+            .textContent = name;
+
+
+        document.getElementById("resultNumber")
+            .textContent = number;
+
+
+        document.getElementById("correctAnswer")
+            .textContent =
+            correct + " soal";
+
+
+        document.getElementById("wrongAnswer")
+            .textContent =
+            wrong + " soal";
+
+
+        document.getElementById("emptyAnswer")
+            .textContent =
+            empty + " soal";
+
+
+        document.getElementById("score")
+            .textContent =
+            score;
+
+
+        let message = "";
+
+
+        if (score >= 90) {
+
+            message =
+                "Excellent! Your English is great! 🌟";
+
+        } else if (score >= 80) {
+
+            message =
+                "Very Good! Keep learning English! 👏";
+
+        } else if (score >= 70) {
+
+            message =
+                "Good job! Keep practicing! 😊";
+
+        } else if (score >= 60) {
+
+            message =
+                "Keep practicing. You can do better! 💪";
+
+        } else {
+
+            message =
+                "Don't give up. Keep learning and practicing! 📚";
+
+        }
+
+
+        document.getElementById("message")
+            .textContent = message;
+
+
+        document.getElementById("quizArea")
+            .style.display = "none";
+
+
+        document.querySelector(".identity")
+            .style.display = "none";
+
+
+        document.querySelector(".info-bar")
+            .style.display = "none";
+
+
+        document.querySelector(".progress-container")
+            .style.display = "none";
+
+
+        document.querySelector(".question-nav")
+            .style.display = "none";
+
+
+        document.getElementById("result")
+            .style.display = "block";
+
+
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth"
+        });
+
+    }
+
+
+    /* =====================================================
+       RESTART
+       ===================================================== */
+
+    function restartQuiz() {
+
+        const confirmRestart =
+            confirm(
+                "Apakah kamu yakin ingin mengulang kuis?"
+            );
+
+
+        if (!confirmRestart) {
+            return;
+        }
+
+
+        currentQuestion = 0;
+
+        userAnswers =
+            new Array(questions.length).fill(null);
+
+        timeLeft = 60 * 60;
+
+        quizFinished = false;
+
+
+        clearInterval(timerInterval);
+
+
+        document.getElementById("studentName")
+            .value = "";
+
+
+        document.getElementById("studentNumber")
+            .value = "";
+
+
+        timer.textContent = "60:00";
+
+        timer.classList.remove("warning");
+
+
+        document.getElementById("quizArea")
+            .style.display = "block";
+
+
+        document.querySelector(".identity")
+            .style.display = "grid";
+
+
+        document.querySelector(".info-bar")
+            .style.display = "flex";
+
+
+        document.querySelector(".progress-container")
+            .style.display = "block";
+
+
+        document.querySelector(".question-nav")
+            .style.display = "flex";
+
+
+        document.getElementById("result")
+            .style.display = "none";
+
+
+        createQuestionNavigation();
+
+        showQuestion();
+
+        startTimer();
+
+
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth"
+        });
+
+    }
+
+
+    /* =====================================================
+       MULAI KUIS
+       ===================================================== */
+
+    createQuestionNavigation();
+
+    showQuestion();
+
+    startTimer();
+
+</script>
+
+</body>
+</html>
